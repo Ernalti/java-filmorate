@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class UserControllerTest {
     static HttpMethods httpMethods;
 
     @BeforeAll
-    public static void beforeAll(){
+    public static void beforeAll() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateAdapter());
         gson = gsonBuilder.create();
@@ -87,6 +86,7 @@ public class UserControllerTest {
         users = gson.fromJson(httpMethods.get("/users").body(), User[].class);
         assertEquals(0,users.length);
     }
+
     @Test
     public void shouldNotCreateUserWithNullLogin() throws IOException, InterruptedException {
         User[] users = gson.fromJson(httpMethods.get("/users").body(), User[].class);
