@@ -16,8 +16,8 @@ import java.util.List;
 public class UserController {
 
     private final HashMap<Integer, User> users = new HashMap<>();
-    private Integer id =0;
-    private final static Logger log = LoggerFactory.getLogger(UserController.class);
+    private Integer id = 0;
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping
     public List<User> findAll() {
@@ -28,7 +28,7 @@ public class UserController {
     @PostMapping
     public User create(@Valid @RequestBody User user) {
         user.setId(nextId());
-        if (user.getName()==null || user.getName().isBlank()) {
+        if (user.getName() == null || user.getName().isBlank()) {
             user.setName(user.getLogin());
         }
         users.put(user.getId(),user);
@@ -38,11 +38,11 @@ public class UserController {
 
     @PutMapping
     public User update(@Valid @RequestBody User user) {
-        if (!users.containsKey(user.getId())){
+        if (!users.containsKey(user.getId())) {
             log.warn("Ошибка обновления пользователя. Пользователь: {}",user);
-            throw new NotFoundExeption("Не найден пользователь с id = "+user.getId());
+            throw new NotFoundExeption("Не найден пользователь с id = " + user.getId());
         }
-        if (user.getName()==null || user.getName().isBlank()) {
+        if (user.getName() == null || user.getName().isBlank()) {
             user.setName(user.getLogin());
         }
         users.replace(user.getId(),user);
@@ -51,12 +51,12 @@ public class UserController {
     }
 
     @DeleteMapping
-    public void clearAll(){
+    public void clearAll() {
         log.info("Обработка запроса на удаление всех пользователей");
         users.clear();
     }
 
-    private Integer nextId(){
+    private Integer nextId() {
         id++;
         log.debug("Изменение id пользователей: {}",id);
         return id;
