@@ -19,7 +19,7 @@ public class FilmController {
 
     private final HashMap<Integer, Film> films = new HashMap<>();
     private Integer id = 0;
-    private final static Logger log = LoggerFactory.getLogger(FilmController.class);
+    private final Logger log = LoggerFactory.getLogger(FilmController.class);
 
     @GetMapping
     public List<Film> findAll() {
@@ -29,7 +29,7 @@ public class FilmController {
 
     @PostMapping
     public Film create(@Valid @RequestBody Film film) {
-        if (beforeFirstFilm(film.getReleaseDate())){
+        if (beforeFirstFilm(film.getReleaseDate())) {
             log.warn("Ошибка создания фильма. дата релиза фильма не может быть раньше 28 декабря 1895 года. Фильм: {}",film);
             throw new ValidationException("дата релиза фильма не может быть раньше 28 декабря 1895 года");
         }
@@ -41,11 +41,11 @@ public class FilmController {
 
     @PutMapping
     public Film update(@Valid @RequestBody Film film) {
-        if (!films.containsKey(film.getId())){
+        if (!films.containsKey(film.getId())) {
             log.warn("Ошибка обновления фильма. Идентификатор не найден. Фильм: {}",film);
-            throw new NotFoundExeption("Не найден фильм с id = "+film.getId());
+            throw new NotFoundExeption("Не найден фильм с id = " + film.getId());
         }
-        if (beforeFirstFilm(film.getReleaseDate())){
+        if (beforeFirstFilm(film.getReleaseDate())) {
             log.warn("Ошибка обновления фильма. дата релиза фильма не может быть раньше 28 декабря 1895 года. Фильм: {}",film);
             throw new ValidationException("дата релиза фильма не может быть раньше 28 декабря 1895 года");
         }
@@ -55,18 +55,18 @@ public class FilmController {
     }
 
     @DeleteMapping
-    public void clearAll(){
+    public void clearAll() {
         log.info("Обработка запроса на удаление всех фильмов");
         films.clear();
     }
 
-    private Integer nextId(){
+    private Integer nextId() {
         id++;
         log.debug("Изменение id фильмов: {}",id);
         return id;
     }
 
-    private boolean beforeFirstFilm(LocalDate date){
+    private boolean beforeFirstFilm(LocalDate date) {
         return date.isBefore(LocalDate.of(1895, 12, 28));
     }
 }
