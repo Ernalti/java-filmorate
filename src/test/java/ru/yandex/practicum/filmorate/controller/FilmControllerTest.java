@@ -22,7 +22,7 @@ class FilmControllerTest {
     static HttpMethods httpMethods;
 
     @BeforeAll
-    public static void beforeAll(){
+    public static void beforeAll() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateAdapter());
         gson = gsonBuilder.create();
