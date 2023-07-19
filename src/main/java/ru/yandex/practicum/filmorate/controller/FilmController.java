@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exeption.NotFoundExeption;
+import ru.yandex.practicum.filmorate.exeption.NotFoundException;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
@@ -43,7 +43,7 @@ public class FilmController {
     public Film update(@Valid @RequestBody Film film) {
         if (!films.containsKey(film.getId())) {
             log.warn("Ошибка обновления фильма. Идентификатор не найден. Фильм: {}",film);
-            throw new NotFoundExeption("Не найден фильм с id = " + film.getId());
+            throw new NotFoundException("Не найден фильм с id = " + film.getId());
         }
         if (beforeFirstFilm(film.getReleaseDate())) {
             log.warn("Ошибка обновления фильма. дата релиза фильма не может быть раньше 28 декабря 1895 года. Фильм: {}",film);
