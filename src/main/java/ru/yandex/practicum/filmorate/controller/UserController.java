@@ -10,12 +10,13 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private final HashMap<Integer, User> users = new HashMap<>();
+    private final Map<Integer, User> users = new HashMap<>();
     private Integer id = 0;
     private final Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -28,9 +29,7 @@ public class UserController {
     @PostMapping
     public User create(@Valid @RequestBody User user) {
         user.setId(nextId());
-        if (user.getName() == null || user.getName().isBlank()) {
-            user.setName(user.getLogin());
-        }
+        copyLoginToBlankName(user);
         users.put(user.getId(),user);
         log.info("Создание пользователя. Пользователь: {}",user);
         return user;
@@ -42,9 +41,7 @@ public class UserController {
             log.warn("Ошибка обновления пользователя. Пользователь: {}",user);
             throw new NotFoundException("Не найден пользователь с id = " + user.getId());
         }
-        if (user.getName() == null || user.getName().isBlank()) {
-            user.setName(user.getLogin());
-        }
+        copyLoginToBlankName(user);
         users.replace(user.getId(),user);
         log.info("Обновление пользователя. Пользователь: {}",user);
         return user;
@@ -60,5 +57,11 @@ public class UserController {
         id++;
         log.debug("Изменение id пользователей: {}",id);
         return id;
+    }
+
+    private void copyLoginToBlankName(User user){
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
     }
 }

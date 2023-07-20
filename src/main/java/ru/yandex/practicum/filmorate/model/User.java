@@ -13,8 +13,9 @@ public class User {
     @NotBlank
     private String login;
     private String name;
+    @NotBlank
     @Email
     private String email;
-    @Past
+    @PastOrPresent
     private LocalDate birthday;
 }

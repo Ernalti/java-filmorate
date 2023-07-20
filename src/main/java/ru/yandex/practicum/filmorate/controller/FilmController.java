@@ -12,12 +12,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/films")
 public class FilmController {
 
-    private final HashMap<Integer, Film> films = new HashMap<>();
+    private final Map<Integer, Film> films = new HashMap<>();
     private Integer id = 0;
     private final Logger log = LoggerFactory.getLogger(FilmController.class);
 
