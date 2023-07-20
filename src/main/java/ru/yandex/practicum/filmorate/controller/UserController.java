@@ -59,7 +59,7 @@ public class UserController {
         return id;
     }
 
-    private void copyLoginToBlankName(User user){
+    private void copyLoginToBlankName(User user) {
         if (user.getName() == null || user.getName().isBlank()) {
             user.setName(user.getLogin());
         }
