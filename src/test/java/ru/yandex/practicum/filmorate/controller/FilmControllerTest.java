@@ -245,6 +245,7 @@ class FilmControllerTest {
                 .name("UserName")
                 .email("user@mail.ru")
                 .birthday(LocalDate.of(1895,12,28))
+                .friends(new HashSet<>())
                 .build();
         httpMethods.post("/users", gson.toJson(user));
         int userId = 1;
