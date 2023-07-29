@@ -76,7 +76,7 @@ public class UserService {
         return userStorage.addFriend(user, friendId);
     }
 
-    public User delFriend(Integer id, Integer friendId){
+    public User delFriend(Integer id, Integer friendId) {
         log.info("Попытка удаления друга пользователю. Пользователь: {}; Друг: {}",id,friendId);
         User user = userStorage.getUserById(id);
         User friend = userStorage.getUserById(friendId);
