@@ -24,13 +24,14 @@ public class InMemoryUserStorage  implements UserStorage {
         return new ArrayList<>(users.values());
     }
 
-    public User getUserById(Integer id){
+    public User getUserById(Integer id) {
         if (!users.containsKey(id)) {
             log.warn("Ошибка получения пользователя по id. id: {}",id);
             throw new NotFoundException("Не найден пользователь с id = " + id);
         }
         return users.get(id);
     }
+
     @Override
     public User createUser(User user) {
         user.setId(nextId());
@@ -61,7 +62,7 @@ public class InMemoryUserStorage  implements UserStorage {
     @Override
     public User delFriend(User user, Integer friendId) {
         log.info("Попытка удаления друга пользователю. Пользователь: {}",user);
-        if (!user.getFriends().contains(friendId)){
+        if (!user.getFriends().contains(friendId)) {
             log.info("У пользователя не было такого друга. Пользователь: {}",user);
             throw new NotFoundException("У пользователя " + user.getName() + " не было такого друга с id = "
                     + user.getId());
@@ -71,11 +72,13 @@ public class InMemoryUserStorage  implements UserStorage {
         log.info("Удаления друга у пользователя прошло успешно. Пользователь: {}; Друг: {}",id,friendId);
         return user;
     }
+
     @Override
     public void clearUsers() {
         log.info("Удаление всех пользователей из памяти");
         users.clear();
     }
+
     private Integer nextId() {
         id++;
         log.debug("Изменение id пользователей: {}",id);
