@@ -41,6 +41,7 @@ public class FilmService {
             return allFilms;
         }
     }
+
     public Film create(Film film) {
         log.info("Попытка загрузки фильма. Фильм: {}",film);
         if (beforeFirstFilm(film.getReleaseDate())) {
@@ -70,11 +71,12 @@ public class FilmService {
         log.info("Попытка удалить лайк фильму. Фильм: {}; Пользователь:{}", id, userId);
         Film film = filmStorage.getFilmById(id);
         userStorage.getUserById(userId);
-        if (!film.getLikes().contains(userId)){
+        if (!film.getLikes().contains(userId)) {
             throw new NotFoundException("Лайка от пользователя с id " + userId + " для фильма с id " + id + "не найдено");
         }
         return filmStorage.delLike(film,userId);
     }
+
     public void clearAll() {
         log.info("Попытка удаления всех фильмов");
         filmStorage.clearFilms();
