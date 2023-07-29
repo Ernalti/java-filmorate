@@ -248,7 +248,7 @@ class FilmControllerTest {
                 .friends(new HashSet<>())
                 .build();
         httpMethods.post("/users", gson.toJson(user));
-        int userId = 1;
+        int userId = user.getId();
         HttpResponse<String> addLikeResponse = httpMethods.put("/films/" + films[0].getId() + "/like/" + userId,
                 "");
         assertEquals(200, addLikeResponse.statusCode());
