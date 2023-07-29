@@ -248,18 +248,18 @@ class FilmControllerTest {
                 .friends(new HashSet<>())
                 .build();
         httpMethods.post("/users", gson.toJson(user));
-        int userId = user.getId();
-        HttpResponse<String> addLikeResponse = httpMethods.put("/films/" + films[0].getId() + "/like/" + userId,
+        int userId = 1;
+        HttpResponse<String> addLikeResponse = httpMethods.put("/films/" + 1 + "/like/" + userId,
                 "");
         assertEquals(200, addLikeResponse.statusCode());
 
-        Film updatedFilm = gson.fromJson(httpMethods.get("/films/" + films[0].getId()).body(), Film.class);
+        Film updatedFilm = gson.fromJson(httpMethods.get("/films/" + 1).body(), Film.class);
         assertTrue(updatedFilm.getLikes().contains(userId));
 
-        HttpResponse<String> delLikeResponse = httpMethods.del("/films/" + films[0].getId() + "/like/" + userId);
+        HttpResponse<String> delLikeResponse = httpMethods.del("/films/" + 1 + "/like/" + userId);
         assertEquals(200, delLikeResponse.statusCode());
 
-        Film filmAfterDelLike = gson.fromJson(httpMethods.get("/films/" + films[0].getId()).body(), Film.class);
+        Film filmAfterDelLike = gson.fromJson(httpMethods.get("/films/" + 1).body(), Film.class);
         assertFalse(filmAfterDelLike.getLikes().contains(userId));
     }
 
