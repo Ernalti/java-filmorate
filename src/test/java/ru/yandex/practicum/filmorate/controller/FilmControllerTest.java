@@ -12,9 +12,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -248,7 +246,7 @@ class FilmControllerTest {
                 .email("user@mail.ru")
                 .birthday(LocalDate.of(1895,12,28))
                 .build();
-        HttpResponse<String> response = httpMethods.post("/users", gson.toJson(user));
+        httpMethods.post("/users", gson.toJson(user));
         int userId = 1;
         HttpResponse<String> addLikeResponse = httpMethods.put("/films/" + films[0].getId() + "/like/" + userId,
                 "");
