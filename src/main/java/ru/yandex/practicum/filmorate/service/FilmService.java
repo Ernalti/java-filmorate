@@ -3,14 +3,11 @@ package ru.yandex.practicum.filmorate.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exeption.NotFoundException;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
-
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -44,7 +41,7 @@ public class FilmService {
             return allFilms;
         }
     }
-    public Film create(@Valid @RequestBody Film film) {
+    public Film create(Film film) {
         log.info("Попытка загрузки фильма. Фильм: {}",film);
         if (beforeFirstFilm(film.getReleaseDate())) {
             log.warn("Ошибка создания фильма. дата релиза фильма не может быть раньше 28 декабря 1895 года. Фильм: {}",film);
@@ -53,7 +50,7 @@ public class FilmService {
         return filmStorage.createFilm(film);
     }
 
-    public Film update(@Valid @RequestBody Film film) {
+    public Film update(Film film) {
         log.info("Попытка обновления фильма. Фильм: {}",film);
         if (beforeFirstFilm(film.getReleaseDate())) {
             log.warn("Ошибка обновления фильма. дата релиза фильма не может быть раньше 28 декабря 1895 года. Фильм: {}",film);

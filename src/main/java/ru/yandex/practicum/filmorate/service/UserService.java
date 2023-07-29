@@ -3,12 +3,9 @@ package ru.yandex.practicum.filmorate.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
-
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -59,13 +56,13 @@ public class UserService {
         return commonUserFriends;
     }
 
-    public User create(@Valid @RequestBody User user) {
+    public User create(User user) {
         copyLoginToBlankName(user);
         log.info("Попытка создания пользователя. Пользователь: {}",user);
         return userStorage.createUser(user);
     }
 
-    public User update(@Valid @RequestBody User user) {
+    public User update(User user) {
         copyLoginToBlankName(user);
         log.info("Попытка обновление пользователя. Пользователь: {}",user);
         return userStorage.updateUser(user);
