@@ -35,4 +35,5 @@ public class User {
     public void delFriend(Integer id) {
         this.friends.remove(id);
     }
+
 }
