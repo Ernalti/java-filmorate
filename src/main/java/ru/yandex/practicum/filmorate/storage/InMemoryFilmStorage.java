@@ -25,7 +25,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public Film getFilmById(Integer id) {
         if (!films.containsKey(id)) {
-            log.warn("Ошибка получения фильма по id. id: {}",id);
+            log.warn("Ошибка получения фильма по id. id: {}", id);
             throw new NotFoundException("Не найден фильм с id = " + id);
         }
         return films.get(id);
@@ -35,19 +35,19 @@ public class InMemoryFilmStorage implements FilmStorage {
     public Film createFilm(Film film) {
         film.setId(nextId());
         films.put(film.getId(),film);
-        log.info("Фильм успешно загружен в память. Фильм: {}",film);
+        log.info("Фильм успешно загружен в память. Фильм: {}", film);
         return film;
     }
 
     @Override
     public Film updateFilm(Film film) {
         if (!films.containsKey(film.getId())) {
-            log.warn("Ошибка обновления фильма. Идентификатор не найден. Фильм: {}",film);
+            log.warn("Ошибка обновления фильма. Идентификатор не найден. Фильм: {}", film);
             throw new NotFoundException("Не найден фильм с id = " + film.getId());
         }
 
         films.replace(film.getId(),film);
-        log.info("Обновление фильма в памяти прошло успешно. Фильм: {}",film);
+        log.info("Обновление фильма в памяти прошло успешно. Фильм: {}", film);
         return film;
     }
 
