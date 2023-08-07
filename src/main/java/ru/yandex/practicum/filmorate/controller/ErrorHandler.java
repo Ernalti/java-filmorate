@@ -20,7 +20,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidation(final ValidationException e){
+    public ErrorResponse handleValidation(final ValidationException e) {
         return new ErrorResponse(e.getMessage());
     }
 
