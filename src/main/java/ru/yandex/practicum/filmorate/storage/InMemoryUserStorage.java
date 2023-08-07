@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exeption.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -11,12 +10,12 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 public class InMemoryUserStorage  implements UserStorage {
 
     private final Map<Integer, User> users = new HashMap<>();
     private Integer id = 0;
-    private final Logger log = LoggerFactory.getLogger(InMemoryUserStorage.class);
 
     @Override
     public List<User> getAllUsers() {
@@ -54,7 +53,6 @@ public class InMemoryUserStorage  implements UserStorage {
     @Override
     public User addFriend(User user, Integer friendId) {
         user.addFriend(friendId);
-        this.updateUser(user);
         log.info("Друг пользователю добавлен. Пользователь: {}", user);
         return user;
     }
@@ -68,7 +66,6 @@ public class InMemoryUserStorage  implements UserStorage {
                     + user.getId());
         }
         user.delFriend(friendId);
-        updateUser(user);
         log.info("Удаления друга у пользователя прошло успешно. Пользователь: {}; Друг: {}",id,friendId);
         return user;
     }

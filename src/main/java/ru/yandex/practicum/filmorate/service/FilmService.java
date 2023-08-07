@@ -1,88 +1,23 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exeption.NotFoundException;
-import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.storage.FilmStorage;
-import ru.yandex.practicum.filmorate.storage.UserStorage;
-import java.time.LocalDate;
 import java.util.List;
 
-@Service
-public class FilmService {
-    private final Logger log = LoggerFactory.getLogger(FilmService.class);
-    private final FilmStorage filmStorage;
-    private final UserStorage userStorage;
+public interface FilmService {
+    List<Film> findAll();
 
-    public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
-        this.filmStorage = filmStorage;
-        this.userStorage = userStorage;
-    }
+    Film findFilm(Integer id);
 
-    public List<Film> findAll() {
-        log.info("Обработка запроса на получение списка фильмов");
-        return filmStorage.getAllFilms();
-    }
+    List<Film> getPopFilms(Integer count);
 
-    public Film findFilm(Integer id) {
-        return filmStorage.getFilmById(id);
-    }
+    Film create(Film film);
 
-    public List<Film> getPopFilms(Integer count) {
-        log.info("Обработка запроса на получение {} наиболее популярных фильмов", count);
-        List<Film> allFilms = filmStorage.getAllFilms();
-        allFilms.sort((film1, film2) -> film2.getLikes().size() - film1.getLikes().size());
-        if (allFilms.size() > count) {
-            return allFilms.subList(0, count);
-        } else {
-            return allFilms;
-        }
-    }
+    Film update(Film film);
 
-    public Film create(Film film) {
-        log.info("Попытка загрузки фильма. Фильм: {}",film);
-        if (beforeFirstFilm(film.getReleaseDate())) {
-            log.warn("Ошибка создания фильма. дата релиза фильма не может быть раньше 28 декабря 1895 года. Фильм: {}",film);
-            throw new ValidationException("Дата релиза фильма не может быть раньше 28 декабря 1895 года");
-        }
-        return filmStorage.createFilm(film);
-    }
+    Film addLike(Integer id, Integer userId);
 
-    public Film update(Film film) {
-        log.info("Попытка обновления фильма. Фильм: {}",film);
-        if (beforeFirstFilm(film.getReleaseDate())) {
-            log.warn("Ошибка обновления фильма. дата релиза фильма не может быть раньше 28 декабря 1895 года. Фильм: {}",film);
-            throw new ValidationException("Дата релиза фильма не может быть раньше 28 декабря 1895 года");
-        }
-        return filmStorage.updateFilm(film);
-    }
+    Film delLike(Integer id, Integer userId);
 
-    public Film addLike(Integer id, Integer userId) {
-        log.info("Попытка поставить лайк фильму. Фильм: {}; Пользователь:{}", id, userId);
-        Film film = filmStorage.getFilmById(id);
-        userStorage.getUserById(userId);
-        return filmStorage.addLike(film,userId);
-    }
+    void clearAll();
 
-    public Film delLike(Integer id, Integer userId) {
-        log.info("Попытка удалить лайк фильму. Фильм: {}; Пользователь:{}", id, userId);
-        Film film = filmStorage.getFilmById(id);
-        userStorage.getUserById(userId);
-        if (!film.getLikes().contains(userId)) {
-            throw new NotFoundException("Лайка от пользователя с id " + userId + " для фильма с id " + id + "не найдено");
-        }
-        return filmStorage.delLike(film,userId);
-    }
-
-    public void clearAll() {
-        log.info("Попытка удаления всех фильмов");
-        filmStorage.clearFilms();
-    }
-
-    private boolean beforeFirstFilm(LocalDate date) {
-        return date.isBefore(LocalDate.of(1895, 12, 28));
-    }
 }
