@@ -25,7 +25,7 @@ public class User {
     private Set<Integer> friends;
 
     public User() {
-        this.friends = new HashSet<>(); // Initialize the set in the constructor
+        this.friends = new HashSet<>();
     }
 
     public void addFriend(Integer id) {
@@ -35,4 +35,5 @@ public class User {
     public void delFriend(Integer id) {
         this.friends.remove(id);
     }
+
 }

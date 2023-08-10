@@ -26,7 +26,7 @@ public class Film {
     private Set<Integer> likes;
 
     public Film() {
-        this.likes = new HashSet<>(); // Initialize the set in the constructor
+        this.likes = new HashSet<>();
     }
 
     public void addLike(Integer id) {
